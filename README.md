@@ -14,19 +14,19 @@ function bench(...functions) {
 
 	console.log(`\ntest bench of ${functions.length} functions`)
 	
-	let d = 500 // ms
+	let { duration, costPrecision } = bench
 	
 	let t, dt, count, cost
 
 	t = performance.now()
 	count = 0
 
-	while(performance.now() - t < d)
+	while(performance.now() - t < duration)
 		count++
 
 	dt = performance.now() - t
 	cost = dt / count
-	console.log(`-- dt: ${dt.toFixed(1)}ms count: ${count}op cost: ${cost.toFixed(6)}ms`)
+	console.log(`-- dt: ${dt.toFixed(1)}ms count: ${count}op cost: ${cost.toFixed(costPrecision)}ms`)
 
 	let refCount = count
 
@@ -35,7 +35,7 @@ function bench(...functions) {
 		t = performance.now()
 		count = 0
 
-		while(performance.now() - t < d) {
+		while(performance.now() - t < duration) {
 
 			f()
 			count++
@@ -47,11 +47,18 @@ function bench(...functions) {
 
 		let relCost = refCount / count
 
-		console.log(`#${i} dt: ${dt.toFixed(1)}ms count: ${count}op cost: ${cost.toFixed(6)}ms x${relCost.toFixed(3)} slower`)
+		console.log(`#${i} dt: ${dt.toFixed(1)}ms count: ${count}op cost: ${cost.toFixed(costPrecision)}ms x${relCost.toFixed(3)} slower`)
 
 	}
 	
 }
+
+Object.assign(bench, {
+
+	duration: 500, 		// ms
+	costPrecision: 6, 	// digit in output
+	
+})
 ```
 
 # example:
@@ -161,6 +168,12 @@ function f3() {
 
 bench(f1, f2, f3)
 
+// outputs :
 
-
+test bench of 3 functions
+test-1.html:96 -- dt: 500.0ms count: 1227657op cost: 0.000407ms
+test-1.html:96 #0 dt: 500.0ms count: 1208001op cost: 0.000414ms x1.016 slower
+test-1.html:96 #1 dt: 500.0ms count: 1104582op cost: 0.000453ms x1.111 slower
+test-1.html:96 #2 dt: 500.0ms count: 1169242op cost: 0.000428ms x1.050 slower
+```
 
