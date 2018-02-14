@@ -167,8 +167,10 @@ function f3() {
 }
 
 bench(f1, f2, f3)
+```
 
-// outputs :
+```
+# outputs :
 
 test bench of 3 functions
 test-1.html:96 -- dt: 500.0ms count: 1227657op cost: 0.000407ms
