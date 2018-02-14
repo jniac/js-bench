@@ -2,7 +2,7 @@
 
 one empty run, then n function runs 
 
-logs: 
+logs format: 
 ```
 -- dt: 500.0ms count: 1227657op cost: 0.000407ms
 #0 dt: 500.0ms count: 1208001op cost: 0.000414ms x1.016 slower
@@ -64,6 +64,12 @@ Object.assign(bench, {
 	
 })
 ```
+
+minified version (for copy/paste, still es7)
+```javascript
+function bench(...a){const b='object'==typeof performance?performance.now.bind(performance):Date.now.bind(Date);console.log(`\ntest bench of ${a.length} functions`);let{duration:c,costPrecision:d}=bench,e,g,h,j;for(e=b(),h=0;b()-e<c;)h++;g=b()-e,j=g/h,console.log(`-- dt: ${g.toFixed(1)}ms count: ${h}op cost: ${j.toFixed(d)}ms`);let k=h;for(let[l,m]of a.entries()){for(e=b(),h=0;b()-e<c;)m(),h++;g=b()-e,j=g/h;let n=k/h;console.log(`#${l} dt: ${g.toFixed(1)}ms count: ${h}op cost: ${j.toFixed(d)}ms x${n.toFixed(3)} slower`)}}Object.assign(bench,{duration:500,costPrecision:6});
+```
+
 
 # example:
 
