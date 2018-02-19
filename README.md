@@ -2,12 +2,22 @@
 
 one empty run, then n function runs 
 
+### usage:
+
+```javascript
+bench(myFunction1, myFunction2, ...)
+// each function is tested for 500ms, to change that setting:
+bench.duration = 2000
+```
+
 logs format: 
 ```
 -- dt: 500.0ms count: 1227657op cost: 0.000407ms
 #0 dt: 500.0ms count: 1208001op cost: 0.000414ms x1.016 slower
 #n ...
 ```
+
+### source:
 
 ```javascript
 function bench(...functions) {
