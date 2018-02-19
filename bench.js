@@ -1,4 +1,4 @@
-export function bench(...functions) {
+function bench(...functions) {
 
 	const now = typeof performance === 'object' 
 		? performance.now.bind(performance)
@@ -39,7 +39,10 @@ export function bench(...functions) {
 
 		let relCost = refCount / count
 
-		console.log(`#${i} dt: ${dt.toFixed(1)}ms count: ${count}op cost: ${cost.toFixed(costPrecision)}ms x${relCost.toFixed(3)} slower`)
+		if (f.name)
+			console.log(f.name + ':')
+
+		console.log(`#${i} dt: ${dt.toFixed(1)}ms count: ${bench.formatBigNumber(count)}op cost: ${cost.toFixed(costPrecision)}ms x${relCost.toFixed(3)} slower`)
 
 	}
 	
@@ -49,7 +52,7 @@ Object.assign(bench, {
 
 	duration: 500, 		// ms
 	costPrecision: 6, 	// digit in output
+	formatBigNumber: (n, { precision = 0, separator = ','} = {}) => n.toFixed().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1' + separator),
 	
 })
 
-export default bench

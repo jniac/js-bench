@@ -61,7 +61,10 @@ function bench(...functions) {
 
 		let relCost = refCount / count
 
-		console.log(`#${i} dt: ${dt.toFixed(1)}ms count: ${count}op cost: ${cost.toFixed(costPrecision)}ms x${relCost.toFixed(3)} slower`)
+		if (f.name)
+			console.log(f.name + ':')
+
+		console.log(`#${i} dt: ${dt.toFixed(1)}ms count: ${bench.formatBigNumber(count)}op cost: ${cost.toFixed(costPrecision)}ms x${relCost.toFixed(3)} slower`)
 
 	}
 	
@@ -71,72 +74,21 @@ Object.assign(bench, {
 
 	duration: 500, 		// ms
 	costPrecision: 6, 	// digit in output
+	formatBigNumber: (n, { precision = 0, separator = ','} = {}) => n.toFixed().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1' + separator),
 	
 })
 ```
 
 [minified version](https://raw.githubusercontent.com/jniac/js-bench/master/bench.min.js), [via jscompress](https://jscompress.com/) (for copy/paste, still es7)
 ```javascript
-function bench(...a){const b='object'==typeof performance?performance.now.bind(performance):Date.now.bind(Date);console.log(`\ntest bench of ${a.length} functions`);let{duration:c,costPrecision:d}=bench,e,g,h,j;for(e=b(),h=0;b()-e<c;)h++;g=b()-e,j=g/h,console.log(`-- dt: ${g.toFixed(1)}ms count: ${h}op cost: ${j.toFixed(d)}ms`);let k=h;for(let[l,m]of a.entries()){for(e=b(),h=0;b()-e<c;)m(),h++;g=b()-e,j=g/h;let n=k/h;console.log(`#${l} dt: ${g.toFixed(1)}ms count: ${h}op cost: ${j.toFixed(d)}ms x${n.toFixed(3)} slower`)}}Object.assign(bench,{duration:500,costPrecision:6});
+function bench(...a){const b='object'==typeof performance?performance.now.bind(performance):Date.now.bind(Date);console.log(`\ntest bench of ${a.length} functions`);let{duration:c,costPrecision:d}=bench,e,g,h,j;for(e=b(),h=0;b()-e<c;)h++;g=b()-e,j=g/h,console.log(`-- dt: ${g.toFixed(1)}ms count: ${h}op cost: ${j.toFixed(d)}ms`);let k=h;for(let[l,m]of a.entries()){for(e=b(),h=0;b()-e<c;)m(),h++;g=b()-e,j=g/h;let o=k/h;m.name&&console.log(m.name+':'),console.log(`#${l} dt: ${g.toFixed(1)}ms count: ${bench.formatBigNumber(h)}op cost: ${j.toFixed(d)}ms x${o.toFixed(3)} slower`)}}Object.assign(bench,{duration:500,costPrecision:6,formatBigNumber:(a,{precision:b=0,separator:c=','}={})=>a.toFixed().replace(/(\d)(?=(\d{3})+(?!\d))/g,'$1'+c)});
 ```
 
 
 # example:
 
 ```javascript
-function bench(...functions) {
-
-	const now = typeof performance === 'object' 
-		? performance.now.bind(performance)
-		: Date.now.bind(Date)
-
-	console.log(`\ntest bench of ${functions.length} functions`)
-	
-	let { duration, costPrecision } = bench
-	
-	let t, dt, count, cost
-
-	t = now()
-	count = 0
-
-	while(now() - t < duration)
-		count++
-
-	dt = now() - t
-	cost = dt / count
-	console.log(`-- dt: ${dt.toFixed(1)}ms count: ${count}op cost: ${cost.toFixed(costPrecision)}ms`)
-
-	let refCount = count
-
-	for (let [i, f] of functions.entries()) {
-
-		t = now()
-		count = 0
-
-		while(now() - t < duration) {
-
-			f()
-			count++
-
-		}
-
-		dt = now() - t
-		cost = dt / count
-
-		let relCost = refCount / count
-
-		console.log(`#${i} dt: ${dt.toFixed(1)}ms count: ${count}op cost: ${cost.toFixed(costPrecision)}ms x${relCost.toFixed(3)} slower`)
-
-	}
-	
-}
-
-Object.assign(bench, {
-
-	duration: 500, 		// ms
-	costPrecision: 6, 	// digit in output
-	
-})
+function bench(...a){const b='object'==typeof performance?performance.now.bind(performance):Date.now.bind(Date);console.log(`\ntest bench of ${a.length} functions`);let{duration:c,costPrecision:d}=bench,e,g,h,j;for(e=b(),h=0;b()-e<c;)h++;g=b()-e,j=g/h,console.log(`-- dt: ${g.toFixed(1)}ms count: ${h}op cost: ${j.toFixed(d)}ms`);let k=h;for(let[l,m]of a.entries()){for(e=b(),h=0;b()-e<c;)m(),h++;g=b()-e,j=g/h;let o=k/h;m.name&&console.log(m.name+':'),console.log(`#${l} dt: ${g.toFixed(1)}ms count: ${bench.formatBigNumber(h)}op cost: ${j.toFixed(d)}ms x${o.toFixed(3)} slower`)}}Object.assign(bench,{duration:500,costPrecision:6,formatBigNumber:(a,{precision:b=0,separator:c=','}={})=>a.toFixed().replace(/(\d)(?=(\d{3})+(?!\d))/g,'$1'+c)});
 
 a = { 
 	x: .12345, 
