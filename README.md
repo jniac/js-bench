@@ -1,6 +1,13 @@
 # js-bench
 
-one empty run, then n function runs 
+one empty run, then n function runs
+
+### RawGitHub
+
+- production  
+https://cdn.rawgit.com/jniac/js-bench/master/bench.js
+- developement  
+https://rawgit.com/jniac/js-bench/master/bench.js
 
 ### usage:
 
@@ -10,7 +17,7 @@ bench(myFunction1, myFunction2, ...)
 bench.duration = 2000
 ```
 
-logs format: 
+logs format:
 ```
 -- dt: 500.0ms count: 1227657op cost: 0.000407ms
 #0 dt: 500.0ms count: 1208001op cost: 0.000414ms x1.016 slower
@@ -22,14 +29,14 @@ logs format:
 ```javascript
 function bench(...functions) {
 
-	const now = typeof performance === 'object' 
+	const now = typeof performance === 'object'
 		? performance.now.bind(performance)
 		: Date.now.bind(Date)
 
 	console.log(`\ntest bench of ${functions.length} functions`)
-	
+
 	let { duration, costPrecision } = bench
-	
+
 	let t, dt, count, cost
 
 	t = now()
@@ -67,7 +74,7 @@ function bench(...functions) {
 		console.log(`#${i} dt: ${dt.toFixed(1)}ms count: ${bench.formatBigNumber(count)}op cost: ${cost.toFixed(costPrecision)}ms x${relCost.toFixed(3)} slower`)
 
 	}
-	
+
 }
 
 Object.assign(bench, {
@@ -75,7 +82,7 @@ Object.assign(bench, {
 	duration: 500, 		// ms
 	costPrecision: 6, 	// digit in output
 	formatBigNumber: (n, { precision = 0, separator = ','} = {}) => n.toFixed().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1' + separator),
-	
+
 })
 ```
 
@@ -90,26 +97,26 @@ function bench(...a){const b='object'==typeof performance?performance.now.bind(p
 ```javascript
 function bench(...a){const b='object'==typeof performance?performance.now.bind(performance):Date.now.bind(Date);console.log(`\ntest bench of ${a.length} functions`);let{duration:c,costPrecision:d}=bench,e,g,h,j;for(e=b(),h=0;b()-e<c;)h++;g=b()-e,j=g/h,console.log(`-- dt: ${g.toFixed(1)}ms count: ${h}op cost: ${j.toFixed(d)}ms`);let k=h;for(let[l,m]of a.entries()){for(e=b(),h=0;b()-e<c;)m(),h++;g=b()-e,j=g/h;let o=k/h;m.name&&console.log(m.name+':'),console.log(`#${l} dt: ${g.toFixed(1)}ms count: ${bench.formatBigNumber(h)}op cost: ${j.toFixed(d)}ms x${o.toFixed(3)} slower`)}}Object.assign(bench,{duration:500,costPrecision:6,formatBigNumber:(a,{precision:b=0,separator:c=','}={})=>a.toFixed().replace(/(\d)(?=(\d{3})+(?!\d))/g,'$1'+c)});
 
-a = { 
-	x: .12345, 
-	y: Math.PI, 
-	width: 200, 
-	height: 300, 
+a = {
+	x: .12345,
+	y: Math.PI,
+	width: 200,
+	height: 300,
 }
 
 function f1() {
 
 	return (
-		a.x * 
-		a.x + 
-		a.y * 
-		a.y + 
-		a.x * 
-		a.width + 
-		a.y * 
+		a.x *
+		a.x +
+		a.y *
+		a.y +
+		a.x *
+		a.width +
+		a.y *
 		a.height
 	)
-	
+
 }
 
 function f2() {
@@ -117,33 +124,33 @@ function f2() {
 	let { x, y, width:w, height:h } = a
 
 	return (
-		x * 
-		x + 
-		y * 
-		y + 
-		x * 
-		w + 
-		y * 
+		x *
+		x +
+		y *
+		y +
+		x *
+		w +
+		y *
 		h
 	)
-	
+
 }
 
 function f3() {
-	
+
 	let x = a.x
 	let y = a.y
 	let w = a.width
 	let h = a.height
 
 	return (
-		x * 
-		x + 
-		y * 
-		y + 
-		x * 
-		w + 
-		y * 
+		x *
+		x +
+		y *
+		y +
+		x *
+		w +
+		y *
 		h
 	)
 
@@ -161,4 +168,3 @@ test bench of 3 functions
 #1 dt: 500.0ms count: 1104582op cost: 0.000453ms x1.111 slower
 #2 dt: 500.0ms count: 1169242op cost: 0.000428ms x1.050 slower
 ```
-
