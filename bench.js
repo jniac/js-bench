@@ -18,7 +18,7 @@ function bench(...functions) {
 
 	dt = now() - t
 	cost = dt / count
-	console.log(`-- dt: ${dt.toFixed(1)}ms count: ${count}op cost: ${cost.toFixed(costPrecision)}ms`)
+	console.log(`-- dt: ${dt.toFixed(1)}ms count: ${bench.formatBigNumber(count)}op cost: ${cost.toFixed(costPrecision)}ms`)
 
 	let refCount = count
 
